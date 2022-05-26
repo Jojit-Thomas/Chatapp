@@ -1,0 +1,30 @@
+{
+  "name": "demo-chat-app",
+  "version": "1.0.0",
+  "description": "demo chat app",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "mongodb": "^4.6.0",
+    "socket.io": "^4.5.0"
+  },
+  "devDependencies": {
+    "jasmine": "^3.1.0",
+    "request": "^2.87.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amkurian/simple-chat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/amkurian/simple-chat/issues"
+  },
+  "homepage": "https://github.com/amkurian/simple-chat#readme"
+}
