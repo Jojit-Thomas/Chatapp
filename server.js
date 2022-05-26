@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const io = require('socket.io').listen(server)(http);
 const { MongoClient } = require('mongodb')
 
 app.use(express.static(__dirname));
