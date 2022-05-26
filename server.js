@@ -39,6 +39,7 @@ app.get('/messages', (req, res) => {
 
 app.post('/messages', async (req, res) => {
   value = req.body
+  console.log(req.body)
   MongoClient.connect(url, function (err, client) {
     if (err) {
       console.log(err)
