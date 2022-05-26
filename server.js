@@ -1,9 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
-var server = http.createServer(app)
-const http = require('http').Server(app)
-const io = require('socket.io').listen(server)
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 const { MongoClient } = require('mongodb')
 
 app.use(express.static(__dirname));
@@ -66,7 +65,3 @@ io.on('connection', () => {
 app.listen(process.env.PORT || 3000, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
-
-// hello world
-// ....
-// hello jojit
