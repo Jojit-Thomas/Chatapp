@@ -1,27 +1,42 @@
 var express = require('express');
 var http = require('http');
-
 var app = express();
 var server = http.createServer(app);
-
 var io = require('socket.io')(server);
 var path = require('path');
+const { MongoClient } = require('mongodb')
+// const { nextTick } = require('process');
+var parser = require('ua-parser-js');
+const { BROWSER } = require('ua-parser-js');
 
 
-app.use(express.static(path.join(__dirname,'./public')));
+var userAgent = ''
+// var userStats = {}
+const dbName = 'chaterroom'
+const colName = 'chats'
+const url = 'mongodb://localhost:27017'
+var name;
+
 
 app.get('/', (req, res) => {
+  userAgent = parser(req.headers['user-agent'])
+  var browser = userAgent['browser']
+  var os = userAgent['os']
+  console.log(userAgent)
+  let userStats = Object.assign(os, browser)
+  console.log(os)
   res.sendFile(__dirname + '/public/index.html');
 });
 
+app.use(express.static(path.join(__dirname,'./public')));
 
-var name;
 
 io.on('connection', (socket) => {
   console.log('new user connected');
   
   socket.on('joining msg', (username) => {
   	name = username;
+    console.log(username)
   	io.emit('chat message', `---${name} joined the chat---`);
   });
   
@@ -31,6 +46,17 @@ io.on('connection', (socket) => {
     
   });
   socket.on('chat message', (msg) => {
+    MongoClient.connect(url, function (err, client) {
+      if (err) {
+        console.log(err)
+      } else {
+        async function InsertOne(value) {
+          await client.db(dbName).collection(colName).insertOne(value)
+        }
+        InsertOne(value)
+      }
+    })
+    value = {name: name, message: msg}
     socket.broadcast.emit('chat message', msg);         //sending message to all except the sender
   });
 });
@@ -42,3 +68,23 @@ server.listen(port, () => {
 });
 
 
+app.get('/jerit/chats/logs', (req, res) => {
+  MongoClient.connect(url, function (err, client) {
+    if (err) {
+      console.log(err)
+    } else {
+      async function find() {
+        const msg = await client.db(dbName).collection(colName).find().toArray((err, message) => {
+          if (err) {
+            console.error(err)
+            return
+          } else {
+            res.json(message)
+          }
+        })
+
+      }
+      find()
+    }
+  })
+})

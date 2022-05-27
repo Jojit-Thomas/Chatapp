@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel = "stylesheet" href="style.css">
 	<script>
-		var name = prompt("Please enter your name");
+		var name = prompt("name")
 	</script>
 </head>
 <body>
@@ -30,8 +30,8 @@
     		socket.emit('joining msg', name);
 
     		$('form').submit(function(e) {
-    			e.preventDefault();            // will prevent page reloading
-      			socket.emit('chat message', (name + ':  ' + $('#m').val()));
+    			e.preventDefault();    
+      			socket.emit('chat message', ($('#m').val()));//name + ':  ' 
                         $('#messages').append($('<li id="list">').text('You:  ' + $('#m').val()));
       			$('#m').val('');
       			return false;
