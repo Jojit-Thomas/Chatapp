@@ -1,8 +1,15 @@
-<h3 align="center"> Minimalist chat Application build with websocket and Node.js.</h3>
+# Real-Time chat application using Socket.io in Node.js
 
-#### This repository is the result of the article :" Build a Minimalist chat Application build with websocket and Node.js.". You can check it on <a href="https://medium.com/@merndev/how-to-set-up-node-js-application-with-eslint-and-prettier-b1b7994db69f">Medium</a></h6>
+In this project, a real-time chat application has been developed which will run on local machine.
+The front-end webpage will prompt the user for their name to keep track of who is sending the messages. 
+This page can be opened in as many windows as the user wants. If a message is sent from one window, it will be displayed in every windows. 
+So, it is just like a real-time web-page opened in multiple clients’ browser which are connected to a common server, i.e, localhost.
 
-### run the app by using this command:
+## Prerequisites
 
-node index.js 
+1. Knowledge of — HTML, CSS, JavaScript, JQuery, and Node.js.
+2. Node.js should be installed on your local machine.
 
+## Final look of the project in action (youtube link)
+
+[Real-Time chat App.](https://youtu.be/1iQGoenm0ug)

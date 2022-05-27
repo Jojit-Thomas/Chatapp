@@ -1,62 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
-    <title>Minimlist chat App</title>
+	<title>ChatRoom</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel = "stylesheet" href="style.css">
+	<script>
+		var name = prompt("Please enter your name");
+	</script>
 </head>
 <body>
-    <div class="container">
-        <p class="msg">Messages:</p>
-        <div id="messages" class="messages"></div>
-        <form id="msgForm" class="msgForm">
-            <input type="text" placeholder="Send message" class="input" id="inputBox"/>
-            <input type="submit" class="btn" value="Send">
-        </form>
+    
+    <div id="intro">
+      <h1>ChatRoom</h1>
     </div>
-   
-    <script type="text/javascript">
-        const ws=new WebSocket(`ws://${window.document.location.host}`);
-        ws.binaryType = "blob";
-        // Log socket opening and closing
-        ws.addEventListener("open", event => {
-            console.log("Websocket connection opened");
-        });
-        ws.addEventListener("close", event => {
-            console.log("Websocket connection closed");
-        });
+    
+    <ul id="messages"></ul>
+    
+    <form action="">
+      <input id="m" placeholder="Enter your message..." autocomplete="off" required /><button>Send</button>
+    </form>
 
-        ws.onmessage = function(message){
-            const msgDiv=document.createElement('div');
-            msgDiv.classList.add('msgCtn');
-            if (message.data instanceof Blob) {
-                reader = new FileReader();
-        
-                reader.onload = () => {
-                     msgDiv.innerHTML = reader.result;
-                     document.getElementById('messages').appendChild(msgDiv);
-                };
-        
-               reader.readAsText(message.data);
-             
-            } else {
-                console.log("Result2: " + message.data);
-                msgDiv.innerHTML = message.data;
-                document.getElementById('messages').appendChild(msgDiv);
-            }
-         
-           
-        }
-        const form=document.getElementById('msgForm');
-        form.addEventListener('submit',(event) => {
-            event.preventDefault();
-            const message=document.getElementById('inputBox').value;
-            ws.send(message);
-            document.getElementById('inputBox').value=''
-        })
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+		
+    		var socket = io();
 
+    		socket.emit('joining msg', name);
+
+    		$('form').submit(function(e) {
+    			e.preventDefault();            // will prevent page reloading
+      			socket.emit('chat message', (name + ':  ' + $('#m').val()));
+                        $('#messages').append($('<li id="list">').text('You:  ' + $('#m').val()));
+      			$('#m').val('');
+      			return false;
+    		});
+    		socket.on('chat message', function(msg){
+      			$('#messages').append($('<li>').text(msg));
+    		});
+  		
     </script>
 </body>
 </html>
