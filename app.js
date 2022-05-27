@@ -14,7 +14,7 @@ var userAgent = ''
 // var userStats = {}
 const dbName = 'chaterroom'
 const colName = 'chats'
-const url = 'mongodb://localhost:27017'
+const url = 'mongodb://localhost:27017' || process.env.MONGODB_URI
 var name;
 
 
